@@ -1,26 +1,19 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { inject } from 'react-rxjs';
+import store$, { inc, dec} from './store';
 
-function App() {
+const props = (storeState) => ({storeState, inc, dec})
+
+export function App(props) {
+  console.log(props)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div> 
+      Count: {props.storeState.count}
+      <button onClick={props.inc}>+</button>
+      <button onClick={props.dec}>-</button>
     </div>
   );
 }
 
-export default App;
+export default inject(store$, props)(App);
